@@ -1,5 +1,6 @@
 package com.periphylla.jabber;
 
+import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 import java.io.File;
@@ -12,9 +13,13 @@ public class Startup {
     public static void main(String args[]) {
         Client client = readProps();
         XMPPTCPConnection connection = connect(client);
-        ChatReceiver chatReceiver = new ChatReceiver(connection);
-        chatReceiver.init();
-        run(chatReceiver);
+        try {
+            ChatReceiver chatReceiver = new ChatReceiver(connection);
+            chatReceiver.init();
+            run(chatReceiver);
+        } finally {
+            connection.disconnect();
+        }
         System.out.println("Jabber finished");
     }
 
@@ -24,6 +29,8 @@ public class Startup {
             connection = new XmppClient(client.toConnectionConfiguration());
             connection.connect();
             connection.login();
+            Presence p = new Presence(Presence.Type.available, "I am free to work for you", 42, Presence.Mode.available);
+            connection.sendStanza(p);
             if (connection.isAuthenticated()) {
                 System.out.println("jabber client running...");
             }
