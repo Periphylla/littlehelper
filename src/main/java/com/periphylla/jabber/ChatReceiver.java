@@ -1,6 +1,8 @@
 package com.periphylla.jabber;
 
 import com.periphylla.answers.Cat;
+import com.periphylla.answers.DefaultAnswer;
+import com.periphylla.answers.Stats;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
@@ -27,13 +29,15 @@ public class ChatReceiver {
             } else {
                 Callback callback = new Callback(chat);
                 for (Answer answer : _answers) {
-                    if (answer.handle(body, callback)) {
+                    if (answer.incomingMessage(body, callback)) {
                         break;
                     }
                 }
             }
         });
         add(new Cat());
+        add(new Stats(_answers));
+        add(new DefaultAnswer(_answers));
     }
 
     private void add(Answer answer) {

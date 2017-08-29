@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-public class Cat implements Answer {
+public class Cat extends Answer {
     @Override
     public boolean handle(String message, ChatReceiver.Callback chat) {
         if (message.contains("cat")) {
@@ -22,5 +22,15 @@ public class Cat implements Answer {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String usage() {
+        return "cat - for cat links";
+    }
+
+    @Override
+    public String toString() {
+        return "Cat";
     }
 }
