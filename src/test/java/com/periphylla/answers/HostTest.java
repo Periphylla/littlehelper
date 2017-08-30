@@ -20,6 +20,15 @@ public class HostTest {
     }
 
     @Test
+    public void test_call_for_host_uppercase_char() throws Exception {
+        Host host = new Host();
+        AtomicReference<String> answer = new AtomicReference<>();
+        ChatReceiver.Callback callback = testCallback(answer);
+        host.handle("host: X-1302-1", callback);
+        assertThat(answer.get()).isEqualTo("User: peri.phylla is logged in to x-1302-1 with ip 1.2.3.4");
+    }
+
+    @Test
     public void test_call_for_not_existing() throws Exception {
         Host host = new Host();
         AtomicReference<String> answer = new AtomicReference<>();
