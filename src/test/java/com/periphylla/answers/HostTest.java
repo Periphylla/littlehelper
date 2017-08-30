@@ -20,7 +20,7 @@ public class HostTest {
     }
 
     @Test
-    public void test_call_for_not_exsisting() throws Exception {
+    public void test_call_for_not_existing() throws Exception {
         Host host = new Host();
         AtomicReference<String> answer = new AtomicReference<>();
         ChatReceiver.Callback callback = testCallback(answer);
