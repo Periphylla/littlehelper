@@ -1,7 +1,13 @@
 package com.periphylla.jabber;
 
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.chat2.Chat;
+import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.jxmpp.jid.EntityBareJid;
+import org.jxmpp.jid.impl.JidCreate;
+import org.jxmpp.stringprep.XmppStringprepException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +22,9 @@ public class Startup {
         try {
             ChatReceiver chatReceiver = new ChatReceiver(connection);
             chatReceiver.init();
-            run(chatReceiver);
+            if (connection.isAuthenticated()) {
+                run(chatReceiver);
+            }
         } finally {
             connection.disconnect();
         }
@@ -33,11 +41,20 @@ public class Startup {
             connection.sendStanza(p);
             if (connection.isAuthenticated()) {
                 System.out.println("jabber client running...");
+//                sendMessageToMatthias(connection);
+            } else {
+                System.out.println("jabber client not running :-(");
             }
         } catch (Exception e) {
             throw new IllegalStateException("Couldnt connect: ", e);
         }
         return connection;
+    }
+
+    private static void sendMessageToMatthias(XMPPTCPConnection connection) throws XmppStringprepException, SmackException.NotConnectedException, InterruptedException {
+        ChatManager chatManager = ChatManager.getInstanceFor(connection);
+        Chat chat = chatManager.chatWith(JidCreate.entityBareFrom("christian.bartolomaeus@optivo.de"));
+        chat.send("hallo, i am your little helper");
     }
 
     private static void run(ChatReceiver chatReceiver) {
@@ -51,7 +68,7 @@ public class Startup {
                 if (counter % 3000 == 0) {
                     System.out.println();
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
                 System.out.println("interrupted...");
                 System.exit(1);
             }
@@ -72,7 +89,7 @@ public class Startup {
             Properties p = new Properties();
             p.load(is);
             client = new Client(p);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
             System.out.println("Could not open client.properties !");
             System.exit(1);
         }
