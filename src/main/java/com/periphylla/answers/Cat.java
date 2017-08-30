@@ -19,7 +19,7 @@ public class Cat extends Answer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return true;
+            return message.equals("cat");   // only break operation if they just asked for cat
         }
         return false;
     }

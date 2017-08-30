@@ -1,8 +1,6 @@
 package com.periphylla.jabber;
 
-import com.periphylla.answers.Cat;
-import com.periphylla.answers.DefaultAnswer;
-import com.periphylla.answers.Stats;
+import com.periphylla.answers.*;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
@@ -14,7 +12,7 @@ public class ChatReceiver {
 
     private final ChatManager _chatManager;
     private boolean _running = true;
-    private List<Answer> _answers = new ArrayList();
+    private final List<Answer> _answers = new ArrayList();
 
     public ChatReceiver(XMPPTCPConnection connection) {
         _chatManager = ChatManager.getInstanceFor(connection);
@@ -37,6 +35,9 @@ public class ChatReceiver {
         });
         add(new Cat());
         add(new Stats(_answers));
+        add(new User());
+        add(new Ip());
+        add(new Host());
         add(new DefaultAnswer(_answers));
     }
 
