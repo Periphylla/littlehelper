@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class Host extends Answer {
 
-    private static final Pattern USER_PATTERN = Pattern.compile("host\\: ([a-zA-Z0-9]+-[a-zA-z0-9]+-[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern HOST_PATTERN = Pattern.compile("host\\: ([a-zA-Z0-9]+-[a-zA-z0-9]+-[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
     private Map<String, UserData> _data;
 
     @Override
@@ -23,7 +23,7 @@ public class Host extends Answer {
         if (_data == null) {
             init();
         }
-        Matcher matcher = USER_PATTERN.matcher(message);
+        Matcher matcher = HOST_PATTERN.matcher(message);
         if (matcher.find()) {
             String foundHost = matcher.group(1);
             UserData data = _data.get(foundHost);
@@ -56,7 +56,7 @@ public class Host extends Answer {
 
     @Override
     public String usage() {
-        return "Host: <user> - to show ip and user for host";
+        return "Host: <host> - to show ip and user for host";
     }
 
     @Override

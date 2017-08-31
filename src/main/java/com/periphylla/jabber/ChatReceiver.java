@@ -5,6 +5,7 @@ import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class ChatReceiver {
     private final ChatManager _chatManager;
     private boolean _running = true;
     private final List<Answer> _answers = new ArrayList();
+    private Instant _timeOfLastMessage = Instant.now();
 
     public ChatReceiver(XMPPTCPConnection connection) {
         _chatManager = ChatManager.getInstanceFor(connection);
@@ -25,6 +27,7 @@ public class ChatReceiver {
             if (body.equals("stop")) {
                 _running = false;
             } else {
+                _timeOfLastMessage = Instant.now();
                 Callback callback = new Callback(chat);
                 for (Answer answer : _answers) {
                     if (answer.incomingMessage(body, callback)) {
@@ -49,8 +52,12 @@ public class ChatReceiver {
         return _running;
     }
 
+    public Instant getTimeOfLastMessage() {
+        return _timeOfLastMessage;
+    }
+
     public static class Callback {
-        private Chat _chat;
+        private final Chat _chat;
 
         public Callback(Chat chat) {
             _chat = chat;

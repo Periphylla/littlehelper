@@ -22,8 +22,9 @@ public class Startup {
         try {
             ChatReceiver chatReceiver = new ChatReceiver(connection);
             chatReceiver.init();
+            Mood mood = new Mood(connection);
             if (connection.isAuthenticated()) {
-                run(chatReceiver);
+                run(chatReceiver, mood);
             }
         } finally {
             connection.disconnect();
@@ -37,11 +38,10 @@ public class Startup {
             connection = new XmppClient(client.toConnectionConfiguration());
             connection.connect();
             connection.login();
-            Presence p = new Presence(Presence.Type.available, "I am free to work for you", 42, Presence.Mode.available);
+            Presence p = new Presence(Presence.Type.available, "I am glad to work for you", 42, Presence.Mode.available);
             connection.sendStanza(p);
             if (connection.isAuthenticated()) {
                 System.out.println("jabber client running...");
-//                sendMessageToMatthias(connection);
             } else {
                 System.out.println("jabber client not running :-(");
             }
@@ -51,16 +51,11 @@ public class Startup {
         return connection;
     }
 
-    private static void sendMessageToMatthias(XMPPTCPConnection connection) throws XmppStringprepException, SmackException.NotConnectedException, InterruptedException {
-        ChatManager chatManager = ChatManager.getInstanceFor(connection);
-        Chat chat = chatManager.chatWith(JidCreate.entityBareFrom("christian.bartolomaeus@optivo.de"));
-        chat.send("hallo, i am your little helper");
-    }
-
-    private static void run(ChatReceiver chatReceiver) {
+    private static void run(ChatReceiver chatReceiver, Mood mood) {
         long counter = 0;
         while (chatReceiver.isRunning()) {
             try {
+                mood.mood(chatReceiver);
                 Thread.sleep(1000);
                 if (++counter % 30 == 0) {
                     System.out.print(".");

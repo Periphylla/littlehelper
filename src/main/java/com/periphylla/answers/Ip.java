@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class Ip extends Answer {
 
-    private static final Pattern USER_PATTERN = Pattern.compile("ip\\: ([a-zA-Z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern IP_PATTERN = Pattern.compile("ip\\: ([a-zA-Z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
     private Map<String, UserData> _data;
 
     @Override
@@ -23,7 +23,7 @@ public class Ip extends Answer {
         if (_data == null) {
             init();
         }
-        Matcher matcher = USER_PATTERN.matcher(message);
+        Matcher matcher = IP_PATTERN.matcher(message);
         if (matcher.find()) {
             String foundIp = matcher.group(1);
             UserData data = _data.get(foundIp);
@@ -56,7 +56,7 @@ public class Ip extends Answer {
 
     @Override
     public String usage() {
-        return "Ip: <user> - to show user and hostname for ip";
+        return "Ip: <ip> - to show user and hostname for ip";
     }
 
     @Override
