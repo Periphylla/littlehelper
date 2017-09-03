@@ -15,12 +15,16 @@ public class Stats extends Answer {
 
     @Override
     public boolean handle(String message, ChatReceiver.Callback chat) {
-        if (!message.equals("stats")) {
+        if (!message.equalsIgnoreCase("stats")) {
             return false;
         }
         StringBuilder sb = new StringBuilder("Stats: ");
         for (Answer answer : _allAnswers) {
-            sb.append("\n").append(answer).append(": ").append(answer.stats());
+            if (answer.equals(this)) {
+                sb.append("\n").append(answer).append(": ").append(answer.stats() + 1);
+            } else {
+                sb.append("\n").append(answer).append(": ").append(answer.stats());
+            }
         }
         chat.callback(sb.toString());
         return true;
@@ -29,11 +33,6 @@ public class Stats extends Answer {
     @Override
     public String usage() {
         return "stats - for stats";
-    }
-
-    @Override
-    public int stats() {
-        return 0;
     }
 
     @Override
