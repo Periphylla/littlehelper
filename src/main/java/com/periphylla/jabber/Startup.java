@@ -41,7 +41,6 @@ public class Startup {
             connection.sendStanza(p);
             if (connection.isAuthenticated()) {
                 System.out.println("jabber client running...");
-//                sendMessageToMatthias(connection);
             } else {
                 System.out.println("jabber client not running :-(");
             }
@@ -49,12 +48,6 @@ public class Startup {
             throw new IllegalStateException("Couldnt connect: ", e);
         }
         return connection;
-    }
-
-    private static void sendMessageToMatthias(XMPPTCPConnection connection) throws XmppStringprepException, SmackException.NotConnectedException, InterruptedException {
-        ChatManager chatManager = ChatManager.getInstanceFor(connection);
-        Chat chat = chatManager.chatWith(JidCreate.entityBareFrom("christian.bartolomaeus@optivo.de"));
-        chat.send("hallo, i am your little helper");
     }
 
     private static void run(ChatReceiver chatReceiver) {
