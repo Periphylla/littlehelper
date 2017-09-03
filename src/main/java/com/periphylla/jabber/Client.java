@@ -17,6 +17,7 @@ public class Client {
         _username = p.getProperty("username");
         _password = p.getProperty("password");
         _host = p.getProperty("server");
+        _domain = p.getProperty("domain");
         _port = Integer.parseInt(p.getProperty("port"));
         _untrusted = Boolean.parseBoolean(p.getProperty("untrusted", "true"));
     }
@@ -24,21 +25,14 @@ public class Client {
     private final String _username;
     private final String _password;
     private final String _host;
+    private final String _domain;
     private final int _port;
     private final boolean _untrusted;
-
-    public String getUsername() {
-        return _username;
-    }
-
-    public String getPassword() {
-        return _password;
-    }
 
     XMPPTCPConnectionConfiguration toConnectionConfiguration() throws XmppStringprepException, NoSuchAlgorithmException, KeyManagementException {
 
         XMPPTCPConnectionConfiguration.Builder builder = XMPPTCPConnectionConfiguration.builder();
-        builder.setXmppDomain("optivo");
+        builder.setXmppDomain(_domain);
         builder.setHost(_host);
         builder.setPort(_port);
         builder.setUsernameAndPassword(_username, _password);

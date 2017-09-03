@@ -25,7 +25,7 @@ public class Host extends Answer {
         }
         Matcher matcher = HOST_PATTERN.matcher(message);
         if (matcher.find()) {
-            String foundHost = matcher.group(1);
+            String foundHost = matcher.group(1).toLowerCase();
             UserData data = _data.get(foundHost);
             if (data == null) {
                 chat.callback("no data for host: " + foundHost + "\nUsage " + usage());

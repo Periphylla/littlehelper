@@ -25,7 +25,7 @@ public class User extends Answer {
         }
         Matcher matcher = USER_PATTERN.matcher(message);
         if (matcher.find()) {
-            String currentUser = matcher.group(1);
+            String currentUser = matcher.group(1).toLowerCase();
             UserData data = _data.get(currentUser);
             if (data == null) {
                 chat.callback("no data for user: " + currentUser + "\nUsage " + usage());
