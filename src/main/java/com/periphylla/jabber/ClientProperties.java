@@ -11,9 +11,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Properties;
 
-public class Client {
+public class ClientProperties {
 
-    Client(Properties p) {
+    ClientProperties(Properties p) {
         _username = p.getProperty("username");
         _password = p.getProperty("password");
         _host = p.getProperty("server");
@@ -52,5 +52,9 @@ public class Client {
         TrustManager[] trustManagers = {manager};
         sslctx.init(null, trustManagers, new SecureRandom());
         builder.setCustomSSLContext(sslctx);
+    }
+
+    public String getUsername() {
+        return _username;
     }
 }

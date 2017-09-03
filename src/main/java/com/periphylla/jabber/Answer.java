@@ -15,7 +15,7 @@ public abstract class Answer {
         return handled;
     }
 
-    public int stats() {
+    public final int stats() {
         return _count.get();
     }
 }

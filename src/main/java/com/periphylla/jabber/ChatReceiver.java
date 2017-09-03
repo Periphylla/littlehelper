@@ -1,27 +1,32 @@
 package com.periphylla.jabber;
 
-import com.periphylla.answers.*;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
+import org.jivesoftware.smack.chat2.IncomingChatMessageListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChatReceiver {
 
     private final ChatManager _chatManager;
     private boolean _running = true;
-    private final List<Answer> _answers = new ArrayList();
-    private Instant _timeOfLastMessage = Instant.now();
+    private final List<Answer> _answers;
+    private Instant _timeOfLastMessage;
+    private IncomingChatMessageListener _listener;
+    private AtomicInteger _activeCount = new AtomicInteger();
 
-    public ChatReceiver(XMPPTCPConnection connection) {
+    public ChatReceiver(XMPPTCPConnection connection, List<Answer> answers) {
         _chatManager = ChatManager.getInstanceFor(connection);
+        _answers = answers;
+
     }
 
     public void init() {
-        _chatManager.addIncomingListener((entityBareJid, message, chat) -> {
+        _listener = (entityBareJid, message, chat) -> {
+            _activeCount.incrementAndGet();
             String body = message.getBody();
             System.out.println("Received message: " + body + " from " + chat.getXmppAddressOfChatPartner());
             if (body.equals("stop")) {
@@ -35,18 +40,9 @@ public class ChatReceiver {
                     }
                 }
             }
-        });
-        add(new Cat());
-        add(new Dog());
-        add(new Stats(_answers));
-        add(new User());
-        add(new Ip());
-        add(new Host());
-        add(new DefaultAnswer(_answers));
-    }
-
-    private void add(Answer answer) {
-        _answers.add(answer);
+            _activeCount.decrementAndGet();
+        };
+        _chatManager.addIncomingListener(_listener);
     }
 
     public boolean isRunning() {
@@ -55,6 +51,20 @@ public class ChatReceiver {
 
     public Instant getTimeOfLastMessage() {
         return _timeOfLastMessage;
+    }
+
+    public void destroy() {
+        _chatManager.removeListener(_listener);
+    }
+
+    public void await() {
+        while (_activeCount.get() > 0) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ignored) {
+                return;
+            }
+        }
     }
 
     public static class Callback {
