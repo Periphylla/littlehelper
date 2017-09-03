@@ -2,6 +2,7 @@ package com.periphylla.answers;
 
 import com.periphylla.jabber.Answer;
 import com.periphylla.jabber.ChatReceiver;
+import org.jivesoftware.smack.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,10 @@ public class DefaultAnswer extends Answer {
     public boolean handle(String message, ChatReceiver.Callback chat) {
         StringBuilder sb = new StringBuilder("Usage: ");
         for (Answer answer : _allAnswers) {
-            sb.append("\n").append(answer.usage());
+            String usage = answer.usage();
+            if (!StringUtils.isEmpty(usage)) {
+                sb.append("\n").append(usage);
+            }
         }
         chat.callback(sb.toString());
         return false;

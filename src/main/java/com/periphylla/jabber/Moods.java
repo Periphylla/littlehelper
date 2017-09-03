@@ -90,7 +90,7 @@ public class Moods {
 
         @Override
         public String usage() {
-            return "swing - for eventually bot mood swing";
+            return "";
         }
 
         @Override
