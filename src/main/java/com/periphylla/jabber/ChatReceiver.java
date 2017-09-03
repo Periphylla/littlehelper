@@ -34,6 +34,7 @@ public class ChatReceiver {
             }
         });
         add(new Cat());
+        add(new Dog());
         add(new Stats(_answers));
         add(new User());
         add(new Ip());
