@@ -25,7 +25,9 @@ public class JabberClient {
             init();
             doWork();
         } finally {
-            _connection.disconnect();
+            if (_connection != null) {
+                _connection.disconnect();
+            }
         }
     }
 
