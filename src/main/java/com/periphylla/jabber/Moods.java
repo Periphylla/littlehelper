@@ -63,7 +63,7 @@ public class Moods {
             mood = _inactiveMoods.get(moodIndex);
         } else {
             try {
-                Process fortune = Runtime.getRuntime().exec("/usr/games/fortune");
+                Process fortune = Runtime.getRuntime().exec("/usr/games/fortune -s");
                 String wiseMessage = IOUtils.toString(fortune.getInputStream());
                 mood = new Presence(Presence.Type.available, wiseMessage, 42 + _inactiveMoods.size(), Presence.Mode.available);
                 _inactiveMoods.add(mood);
@@ -77,7 +77,7 @@ public class Moods {
 
     private class MoodSwing extends Answer {
 
-        private AtomicBoolean _swingInit = new AtomicBoolean();
+        private final AtomicBoolean _swingInit = new AtomicBoolean();
 
         @Override
         public boolean handle(String message, ChatReceiver.Callback chat) {

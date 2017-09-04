@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JabberClient {
-    private ClientProperties _clientProperties;
+    private final ClientProperties _clientProperties;
     private final List<Answer> _answers = new ArrayList();
     private Moods _moods;
     private XMPPTCPConnection _connection;
@@ -94,9 +94,9 @@ public class JabberClient {
             connection.sendStanza(mood);
             System.out.println("Setting mood to: " + mood.getStatus());
             if (connection.isAuthenticated()) {
-                System.out.println("jabber clientProperties running...");
+                System.out.println("jabber client running...");
             } else {
-                System.out.println("jabber clientProperties not running :-(");
+                System.out.println("jabber client not running :-(");
             }
         } catch (Exception e) {
             throw new IllegalStateException("Couldnt connect: ", e);
