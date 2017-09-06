@@ -24,9 +24,9 @@ public class Moods {
     public Moods() {
         _inactiveMoods.add(new Presence(Presence.Type.available, "I am bored, nobody talks to me", 43, Presence.Mode.available));
         _inactiveMoods.add(new Presence(Presence.Type.available, "I am very bored, nobody talks to me", 44, Presence.Mode.available));
-        _inactiveMoods.add(new Presence(Presence.Type.probe, "I don't know what i am", 45, Presence.Mode.xa));
+        _inactiveMoods.add(new Presence(Presence.Type.probe, "Insomnia isn't anything to lose sleep over", 45, Presence.Mode.xa));
         _inactiveMoods.add(new Presence(Presence.Type.unavailable, "Gone fishing ...", 46, Presence.Mode.away));
-        _inactiveMoods.add(new Presence(Presence.Type.available, "I in love to my creators", 47, Presence.Mode.available));
+        _inactiveMoods.add(new Presence(Presence.Type.available, "Do not write below this line", 47, Presence.Mode.available));
     }
 
     public Optional<Presence> nextMood(ChatReceiver chatReceiver) {
@@ -65,7 +65,7 @@ public class Moods {
             try {
                 Process fortune = Runtime.getRuntime().exec("/usr/games/fortune -s");
                 String wiseMessage = IOUtils.toString(fortune.getInputStream());
-                mood = new Presence(Presence.Type.available, wiseMessage, 42 + _inactiveMoods.size(), Presence.Mode.available);
+                mood = new Presence(Presence.Type.available, wiseMessage, 50, Presence.Mode.available);
                 _inactiveMoods.add(mood);
             } catch (IOException e) {
                 System.out.println("Coud not generate new mood " + e.getMessage());
