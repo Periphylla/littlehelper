@@ -19,14 +19,17 @@ public class Moods {
     private Instant _lastMoodChange = Instant.now();
     private Instant _lastSeenMessage = Instant.now();
     private Presence _currentMood = _available;
-    private MoodSwing _moodSwing = new MoodSwing();
+    private final MoodSwing _moodSwing = new MoodSwing();
 
     public Moods() {
         _inactiveMoods.add(new Presence(Presence.Type.available, "I am bored, nobody talks to me", 43, Presence.Mode.available));
         _inactiveMoods.add(new Presence(Presence.Type.available, "I am very bored, nobody talks to me", 44, Presence.Mode.available));
         _inactiveMoods.add(new Presence(Presence.Type.probe, "Insomnia isn't anything to lose sleep over", 45, Presence.Mode.xa));
         _inactiveMoods.add(new Presence(Presence.Type.unavailable, "Gone fishing ...", 46, Presence.Mode.away));
-        _inactiveMoods.add(new Presence(Presence.Type.available, "Do not write below this line", 47, Presence.Mode.available));
+        _inactiveMoods.add(new Presence(Presence.Type.available, "Do not write below this line", 47, Presence.Mode.away));
+        _inactiveMoods.add(new Presence(Presence.Type.available, "Either I'm dead or my watch has stopped.", 48, Presence.Mode.away));
+        _inactiveMoods.add(new Presence(Presence.Type.available, "Send a self-addressed, stamped envelope", 49, Presence.Mode.available));
+        _inactiveMoods.add(new Presence(Presence.Type.available, "I love the bee Marvin", 49, Presence.Mode.available));
     }
 
     public Optional<Presence> nextMood(ChatReceiver chatReceiver) {
@@ -45,7 +48,7 @@ public class Moods {
         } else {
             if (now.minusSeconds(2).isBefore(_lastSeenMessage) && !_available.equals(_currentMood)) {
                 mood = _available;
-            } else if (now.minus(5, ChronoUnit.MINUTES).isAfter(_lastMoodChange) && now.minus(30, ChronoUnit.MINUTES).isAfter(_lastSeenMessage)) {
+            } else if (now.minus(1, ChronoUnit.HOURS).isAfter(_lastMoodChange) && now.minus(1, ChronoUnit.HOURS).isAfter(_lastSeenMessage)) {
                 mood = randomMood();
             }
         }
@@ -63,8 +66,14 @@ public class Moods {
             mood = _inactiveMoods.get(moodIndex);
         } else {
             try {
-                Process fortune = Runtime.getRuntime().exec("/usr/games/fortune -s");
-                String wiseMessage = IOUtils.toString(fortune.getInputStream());
+                String wiseMessage = null;
+                for (int c = 0; c < 5; c++) {
+                    Process fortune = Runtime.getRuntime().exec("/usr/games/fortune -e computers -e art -s");
+                    wiseMessage = IOUtils.toString(fortune.getInputStream());
+                    if (!wiseMessage.contains("\t")) {
+                        break;
+                    }
+                }
                 mood = new Presence(Presence.Type.available, wiseMessage, 50, Presence.Mode.available);
                 _inactiveMoods.add(mood);
             } catch (IOException e) {

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class Ip extends Answer {
 
-    private static final Pattern IP_PATTERN = Pattern.compile("ip\\: ([a-zA-Z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern IP_PATTERN = Pattern.compile("ip\\:[ ]*([a-zA-Z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
     private Map<String, UserData> _data;
 
     @Override
