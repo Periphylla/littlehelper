@@ -4,6 +4,8 @@ import com.periphylla.jabber.Answer;
 import com.periphylla.jabber.ChatReceiver;
 import com.periphylla.util.UserData;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.util.regex.Pattern;
 
 public class User extends Answer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
     private static final Pattern USER_PATTERN = Pattern.compile("user\\:[ ]*([a-zA-Z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
     private Map<String, UserData> _data;
 
@@ -45,10 +48,10 @@ public class User extends Answer {
                 List<String> lines = FileUtils.readLines(file);
                 for (String line : lines) {
                     UserData userData = new UserData(line);
-                    data.put(userData.getName(), userData);
+                    data.put(userData.getName().toLowerCase(), userData);
                 }
             } catch (IOException e) {
-                System.out.println("Could not read " + file + ". " + e.getMessage());
+                LOGGER.warn("Could not read " + file + ". " + e.getMessage());
             }
         }
         _data = data;

@@ -1,5 +1,9 @@
 package com.periphylla.jabber;
 
+import com.periphylla.answers.Ip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,32 +11,33 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Startup {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Ip.class);
     public static void main(String args[]) {
         ClientProperties clientProperties = readProps();
         JabberClient client = new JabberClient(clientProperties);
         client.run();
-        System.out.println("Jabber client " + clientProperties.getUsername() + " finished");
+        LOGGER.info("Jabber client " + clientProperties.getUsername() + " finished");
     }
 
     private static ClientProperties readProps() {
-        System.out.println("Starting ...");
+        LOGGER.info("Starting ...");
         ClientProperties clientProperties = null;
 
         File file = new File("client.properties");
         if (!file.exists()) {
-            System.out.println("no client.properties !");
+            LOGGER.info("no client.properties !");
             System.exit(1);
         }
-        System.out.println("reading properties ...");
+        LOGGER.info("reading properties ...");
         try (InputStream is = new FileInputStream(file)) {
             Properties p = new Properties();
             p.load(is);
             clientProperties = new ClientProperties(p);
-        } catch (IOException ignored) {
-            System.out.println("Could not open client.properties !");
+        } catch (IOException e) {
+            LOGGER.error("Could not open client.properties !", e);
             System.exit(1);
         }
-        System.out.println("Try to establish jabber connection");
+        LOGGER.info("Try to establish jabber connection");
         return clientProperties;
     }
 }

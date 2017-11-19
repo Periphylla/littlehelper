@@ -4,6 +4,8 @@ import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChatReceiver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatReceiver.class);
     private final ChatManager _chatManager;
     private boolean _running = true;
     private final List<Answer> _answers;
@@ -28,7 +31,7 @@ public class ChatReceiver {
         _listener = (entityBareJid, message, chat) -> {
             _activeCount.incrementAndGet();
             String body = message.getBody();
-            System.out.println("Received message: " + body + " from " + chat.getXmppAddressOfChatPartner());
+            LOGGER.info("Received message: " + body + " from " + chat.getXmppAddressOfChatPartner());
             if (body.equals("stop")) {
                 _running = false;
             } else {

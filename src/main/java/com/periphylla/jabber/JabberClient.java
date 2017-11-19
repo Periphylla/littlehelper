@@ -3,11 +3,14 @@ package com.periphylla.jabber;
 import com.periphylla.answers.*;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JabberClient {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JabberClient.class);
     private final ClientProperties _clientProperties;
     private final List<Answer> _answers = new ArrayList();
     private Moods _moods;
@@ -36,16 +39,9 @@ public class JabberClient {
     }
 
     private void doWork() {
-        long counter = 0;
         while (_chatReceiver.isRunning()) {
             sleep(1000);
             moodSwing();
-            if (++counter % 30 == 0) {
-                System.out.print(".");
-            }
-            if (counter % 3000 == 0) {
-                System.out.println();
-            }
         }
     }
 
@@ -53,7 +49,7 @@ public class JabberClient {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException ignored) {
-            System.out.println("interrupted...");
+            LOGGER.info("interrupted...");
             System.exit(1);
         }
     }
@@ -92,11 +88,11 @@ public class JabberClient {
             connection.connect();
             connection.login();
             connection.sendStanza(mood);
-            System.out.println("Setting mood to: " + mood.getStatus());
+            LOGGER.info("Setting mood to: " + mood.getStatus());
             if (connection.isAuthenticated()) {
-                System.out.println("jabber client running...");
+                LOGGER.info("jabber client running...");
             } else {
-                System.out.println("jabber client not running :-(");
+                LOGGER.warn("jabber client not running :-(");
             }
         } catch (Exception e) {
             throw new IllegalStateException("Couldnt connect: ", e);

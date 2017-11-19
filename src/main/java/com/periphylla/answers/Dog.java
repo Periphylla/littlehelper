@@ -1,6 +1,7 @@
 package com.periphylla.answers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Throwables;
 import com.periphylla.jabber.Answer;
 import com.periphylla.jabber.ChatReceiver;
 
@@ -17,7 +18,7 @@ public class Dog extends Answer {
                 String url = (String) result.get("message");
                 chat.callback(url);
             } catch (IOException e) {
-                e.printStackTrace();
+                Throwables.propagate(e);
             }
             return message.equals("dog");   // only break operation if they just asked for dog
         }
