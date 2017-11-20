@@ -108,7 +108,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.periphylla.jabber.Startup</mainClass>
+                            <mainClass>com/periphylla/jabber/Startup</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

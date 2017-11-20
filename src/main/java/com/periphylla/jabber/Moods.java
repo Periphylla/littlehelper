@@ -80,7 +80,7 @@ public class Moods {
                 mood = new Presence(Presence.Type.available, wiseMessage, 50, Presence.Mode.available);
                 _inactiveMoods.add(mood);
             } catch (IOException e) {
-                LOGGER.warn("Coud not generate new mood.", e);
+                LOGGER.warn("Could not generate new mood.", e);
                 mood = _available;
             }
         }
