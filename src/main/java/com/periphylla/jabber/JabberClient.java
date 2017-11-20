@@ -1,16 +1,15 @@
 package com.periphylla.jabber;
 
 import com.periphylla.answers.*;
+import org.apache.log4j.Logger;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JabberClient {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JabberClient.class);
+    private static final Logger LOGGER = Logger.getLogger(JabberClient.class);
     private final ClientProperties _clientProperties;
     private final List<Answer> _answers = new ArrayList();
     private Moods _moods;

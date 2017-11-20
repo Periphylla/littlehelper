@@ -1,8 +1,7 @@
 package com.periphylla.jabber;
 
 import com.periphylla.answers.Ip;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,8 +10,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Startup {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Ip.class);
-    public static void main(String args[]) {
+    private static final Logger LOGGER = Logger.getLogger(Ip.class);
+    public static void main(String[] args) {
         ClientProperties clientProperties = readProps();
         JabberClient client = new JabberClient(clientProperties);
         client.run();

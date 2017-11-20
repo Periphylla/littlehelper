@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+        <appender name="stdout" class="org.apache.log4j.DailyRollingFileAppender">
+            <param name="File" value="logs/littlehelper.log"/>
+            <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+            <layout class="org.apache.log4j.PatternLayout">
+                <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %5p: %m - (%F:%L - %c)%n"/>
+            </layout>
+        </appender>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="stdout"/>
+        </Root>
+    </Loggers>
+</Configuration>

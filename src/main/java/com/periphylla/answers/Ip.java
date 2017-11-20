@@ -4,8 +4,7 @@ import com.periphylla.jabber.Answer;
 import com.periphylla.jabber.ChatReceiver;
 import com.periphylla.util.UserData;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class Ip extends Answer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Ip.class);
+    private static final Logger LOGGER = Logger.getLogger(Ip.class);
     private static final Pattern IP_PATTERN = Pattern.compile("ip\\:[ ]*([a-zA-Z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
     private Map<String, UserData> _data;
 
