@@ -13,7 +13,7 @@ public class Cat extends Answer {
     public boolean handle(String message, ChatReceiver.Callback chat) {
         if (message.contains("cat")) {
             try {
-                Map result = new ObjectMapper().readValue(new URL("http://random.cat/meow"), Map.class);
+                Map result = new ObjectMapper().readValue(new URL("https://aws.random.cat/meow"), Map.class);
                 String url = (String) result.get("file");
                 chat.callback(url);
             } catch (IOException e) {
