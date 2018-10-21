@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.jivesoftware.smack.packet.Presence;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class Moods {
                 String wiseMessage = null;
                 for (int c = 0; c < 5; c++) {
                     Process fortune = Runtime.getRuntime().exec("/usr/games/fortune -e computers -e art -s");
-                    wiseMessage = IOUtils.toString(fortune.getInputStream());
+                    wiseMessage = IOUtils.toString(fortune.getInputStream(), Charset.defaultCharset());
                     if (!wiseMessage.contains("\t")) {
                         break;
                     }

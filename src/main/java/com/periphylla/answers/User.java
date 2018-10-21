@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
 public class User extends Answer {
 
     private static final Logger LOGGER = Logger.getLogger(User.class);
-    private static final Pattern USER_PATTERN = Pattern.compile("user\\:[ ]*([a-zA-Z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern USER_PATTERN = Pattern.compile("user:[ ]*([a-zA-Z0-9]+\\.[a-zA-z0-9]+)", Pattern.CASE_INSENSITIVE);
     private Map<String, UserData> _data;
 
     @Override
@@ -44,7 +45,7 @@ public class User extends Answer {
         File file = new File("user_host_ip.csv");
         if (file.exists()) {
             try {
-                List<String> lines = FileUtils.readLines(file);
+                List<String> lines = FileUtils.readLines(file, Charset.defaultCharset());
                 for (String line : lines) {
                     UserData userData = new UserData(line);
                     data.put(userData.getName().toLowerCase(), userData);

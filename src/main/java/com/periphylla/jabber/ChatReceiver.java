@@ -56,7 +56,7 @@ public class ChatReceiver {
     }
 
     public void destroy() {
-        _chatManager.removeListener(_listener);
+        _chatManager.removeIncomingListener(_listener);
     }
 
     public void await() {
