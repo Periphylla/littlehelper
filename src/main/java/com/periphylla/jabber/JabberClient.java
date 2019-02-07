@@ -8,7 +8,7 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JabberClient {
+public class JabberClient implements AutoCloseable {
     private static final Logger LOGGER = Logger.getLogger(JabberClient.class);
     private final ClientProperties _clientProperties;
     private final List<Answer> _answers = new ArrayList();
@@ -33,15 +33,25 @@ public class JabberClient {
         }
     }
 
+    public void initNonBlocking() {
+        _moods = new Moods();
+        initAnswers();
+        init();
+    }
+
     private void init() {
         moodSwing();
     }
 
-    private void doWork() {
+    protected void doWork() {
         while (_chatReceiver.isRunning()) {
             sleep(1000);
             moodSwing();
         }
+    }
+
+    public boolean isRunning() {
+        return _chatReceiver.isRunning();
     }
 
     private void sleep(long millis) {
@@ -53,7 +63,7 @@ public class JabberClient {
         }
     }
 
-    private void moodSwing() {
+    protected void moodSwing() {
         _moods.nextMood(_chatReceiver).ifPresent(mood -> {
             if (_connection != null && _connection.isAuthenticated()) {
                 _chatReceiver.await();
@@ -69,7 +79,7 @@ public class JabberClient {
         });
     }
 
-    private void initAnswers() {
+    protected void initAnswers() {
         _answers.add(new Cat());
         _answers.add(new Dog());
         _answers.add(new Stats(_answers));
@@ -78,6 +88,14 @@ public class JabberClient {
         _answers.add(new Host());
         _answers.add(_moods.moodSwing());
         _answers.add(new DefaultAnswer(_answers));
+    }
+
+    protected void addAnswer(Answer answer, int position) {
+        if (position > 0) {
+            _answers.add(position, answer);
+        } else {
+            _answers.add(_answers.size() - 2, answer);  // pre last position
+        }
     }
 
     private XMPPTCPConnection connect(ClientProperties clientProperties, Presence mood) {
@@ -97,5 +115,12 @@ public class JabberClient {
             throw new IllegalStateException("Couldnt connect: ", e);
         }
         return connection;
+    }
+
+    @Override
+    public void close() {
+        if (_connection != null) {
+            _connection.disconnect();
+        }
     }
 }

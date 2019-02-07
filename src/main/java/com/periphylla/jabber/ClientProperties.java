@@ -13,7 +13,16 @@ import java.util.Properties;
 
 public class ClientProperties {
 
-    ClientProperties(Properties p) {
+    private String _username;
+    private String _password;
+    private String _host;
+    private String _domain;
+    private int _port;
+    private boolean _untrusted;
+
+    public ClientProperties() { }
+
+    public ClientProperties(Properties p) {
         _username = p.getProperty("username");
         _password = p.getProperty("password");
         _host = p.getProperty("server");
@@ -21,13 +30,6 @@ public class ClientProperties {
         _port = Integer.parseInt(p.getProperty("port"));
         _untrusted = Boolean.parseBoolean(p.getProperty("untrusted", "true"));
     }
-
-    private final String _username;
-    private final String _password;
-    private final String _host;
-    private final String _domain;
-    private final int _port;
-    private final boolean _untrusted;
 
     XMPPTCPConnectionConfiguration toConnectionConfiguration() throws XmppStringprepException, NoSuchAlgorithmException, KeyManagementException {
 
@@ -56,5 +58,40 @@ public class ClientProperties {
 
     public String getUsername() {
         return _username;
+    }
+
+    public void setUsername(String username) {
+        _username = username;
+    }
+
+    public void setPassword(String password) {
+        _password = password;
+    }
+
+    public void setHost(String host) {
+        _host = host;
+    }
+
+    public void setDomain(String domain) {
+        _domain = domain;
+    }
+
+    public void setPort(int port) {
+        _port = port;
+    }
+
+    public void setUntrusted(boolean untrusted) {
+        _untrusted = untrusted;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientProperties{" +
+                "_username='" + _username + '\'' +
+                ", _host='" + _host + '\'' +
+                ", _domain='" + _domain + '\'' +
+                ", _port=" + _port +
+                ", _untrusted=" + _untrusted +
+                '}';
     }
 }
