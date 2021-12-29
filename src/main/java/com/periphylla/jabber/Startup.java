@@ -1,15 +1,15 @@
 package com.periphylla.jabber;
 
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Startup {
-    private static final Logger LOGGER = Logger.getLogger(Startup.class);
+    private static final Logger LOGGER = Logger.getLogger(Startup.class.getName());
     public static void main(String[] args) {
         ClientProperties clientProperties = readProps();
         JabberClient client = new JabberClient(clientProperties);
@@ -32,7 +32,7 @@ public class Startup {
             p.load(is);
             clientProperties = new ClientProperties(p);
         } catch (IOException e) {
-            LOGGER.error("Could not open client.properties !", e);
+            LOGGER.log(Level.SEVERE, "Could not open client.properties !", e);
             System.exit(1);
         }
         LOGGER.info("Try to establish jabber connection");

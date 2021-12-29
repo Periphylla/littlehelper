@@ -1,6 +1,5 @@
 package com.periphylla.jabber;
 
-import org.apache.log4j.Logger;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jivesoftware.smack.chat2.IncomingChatMessageListener;
@@ -9,10 +8,11 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 public class ChatReceiver {
 
-    private static final Logger LOGGER = Logger.getLogger(ChatReceiver.class);
+    private static final Logger LOGGER = Logger.getLogger(ChatReceiver.class.getName());
     private final ChatManager _chatManager;
     private boolean _running = true;
     private final List<Answer> _answers;

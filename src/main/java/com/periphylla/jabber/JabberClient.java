@@ -1,15 +1,16 @@
 package com.periphylla.jabber;
 
 import com.periphylla.answers.*;
-import org.apache.log4j.Logger;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JabberClient implements AutoCloseable {
-    private static final Logger LOGGER = Logger.getLogger(JabberClient.class);
+    private static final Logger LOGGER = Logger.getLogger(JabberClient.class.getName());
     private final ClientProperties _clientProperties;
     private final List<Answer> _answers = new ArrayList();
     private Moods _moods;
@@ -109,7 +110,7 @@ public class JabberClient implements AutoCloseable {
             if (connection.isAuthenticated()) {
                 LOGGER.info("jabber client running...");
             } else {
-                LOGGER.warn("jabber client not running :-(");
+                LOGGER.log(Level.WARNING, "jabber client not running :-(");
             }
         } catch (Exception e) {
             throw new IllegalStateException("Couldnt connect: ", e);

@@ -1,7 +1,6 @@
 package com.periphylla.jabber;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.jivesoftware.smack.packet.Presence;
 
 import java.io.IOException;
@@ -13,9 +12,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Moods {
-    private static final Logger LOGGER = Logger.getLogger(Moods.class);
+    private static final Logger LOGGER = Logger.getLogger(Moods.class.getName());
     private final List<Presence> _inactiveMoods = new ArrayList<>();
     private final Presence _available = new Presence(Presence.Type.available, "I am glad to work for you", 42, Presence.Mode.available);
 
@@ -80,7 +81,7 @@ public class Moods {
                 mood = new Presence(Presence.Type.available, wiseMessage, 50, Presence.Mode.available);
                 _inactiveMoods.add(mood);
             } catch (IOException e) {
-                LOGGER.warn("Could not generate new mood.", e);
+                LOGGER.log(Level.WARNING, "Could not generate new mood.", e);
                 mood = _available;
             }
         }

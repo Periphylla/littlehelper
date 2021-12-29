@@ -18,7 +18,7 @@ public class Dog extends Answer {
                 String url = (String) result.get("message");
                 chat.callback(url);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
             return message.equals("dog");   // only break operation if they just asked for dog
         }
