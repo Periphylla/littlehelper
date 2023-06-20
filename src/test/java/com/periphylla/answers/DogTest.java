@@ -9,12 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DogTest {
     @Test
-    public void simple_call_dog() throws Exception {
+    public void simple_call_dog() {
         Dog dog = new Dog();
         AtomicReference<String> answer = new AtomicReference<>();
         ChatReceiver.Callback callback = testCallback(answer);
         dog.handle("dog", callback);
-        assertThat(answer.get()).startsWith("https://dog.ceo/api");
+        assertThat(answer.get()).startsWith("https://images.dog.ceo/");
     }
 
 

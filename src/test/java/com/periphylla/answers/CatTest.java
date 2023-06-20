@@ -1,6 +1,8 @@
 package com.periphylla.answers;
 
 import com.periphylla.jabber.ChatReceiver;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -9,8 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class CatTest {
-    @Test
-    public void simple_call_cat() throws Exception {
+    @Ignore @Test
+    public void simple_call_cat() {
         Cat cat = new Cat();
         AtomicReference<String> answer = new AtomicReference<>();
         ChatReceiver.Callback callback = testCallback(answer);

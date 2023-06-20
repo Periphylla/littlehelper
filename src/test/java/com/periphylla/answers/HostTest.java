@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HostTest {
 
     @Test
-    public void test_call_for_host() throws Exception {
+    public void test_call_for_host() {
         Host host = new Host();
         AtomicReference<String> answer = new AtomicReference<>();
         ChatReceiver.Callback callback = testCallback(answer);
@@ -20,7 +20,7 @@ public class HostTest {
     }
 
     @Test
-    public void test_call_for_host_uppercase_char() throws Exception {
+    public void test_call_for_host_uppercase_char() {
         Host host = new Host();
         AtomicReference<String> answer = new AtomicReference<>();
         ChatReceiver.Callback callback = testCallback(answer);
@@ -29,12 +29,12 @@ public class HostTest {
     }
 
     @Test
-    public void test_call_for_not_existing() throws Exception {
+    public void test_call_for_not_existing() {
         Host host = new Host();
         AtomicReference<String> answer = new AtomicReference<>();
         ChatReceiver.Callback callback = testCallback(answer);
         host.handle("host: not-ex-isting", callback);
-        assertThat(answer.get()).isEqualTo("no data for host: not-ex-isting\nUsage Host: <user> - to show ip and user for host");
+        assertThat(answer.get()).isEqualTo("no data for host: not-ex-isting\nUsage Host: <host> - to show ip and user for host");
     }
 
     private ChatReceiver.Callback testCallback(AtomicReference<String> answer) {
